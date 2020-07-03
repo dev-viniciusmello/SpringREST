@@ -9,4 +9,4 @@ public ResponseEntity<String> init()
 	:Como segue a arquitetura rest, a url não precisa ser passa do jeito clássico. 
 		:url/10/parametro2/2
 		
-Nosso serviço pode ser diferenciado através de um termo na url.
+Nosso serviço pode ser diferenciado através dos parametroes na url e na forma com que ela é feita.

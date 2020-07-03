@@ -20,9 +20,12 @@ public class IndexController {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
-	@GetMapping(value = "/{id}/relatoriopdf", produces = "application/json")
-	public ResponseEntity<Usuario> relatorio(@PathVariable("id") Long id) {
-		return new ResponseEntity<Usuario>(usuarioRepository.findById(id).get(), HttpStatus.OK);
+	@GetMapping(value = "/{id}/codigodavenda/{venda}", produces = "application/json")
+	public ResponseEntity<Usuario> relatorio(@PathVariable("id") Long id, 
+			@PathVariable(value = "venda") Long venda) {
+		System.out.println(id);
+		System.out.println(venda);
+		return new ResponseEntity<Usuario>(usuarioRepository.findById(id).get(), HttpStatus.OK);	
 	}
 	
 	@GetMapping(value = "/", produces = "application/json")

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,10 +45,12 @@ public class IndexController {
 		return new ResponseEntity<Usuario>(usuarioSalvo, HttpStatus.OK); 
 	}
 	
-	@PostMapping(value = "/{idusuario}/venda/{idvenda}", produces = "application/json")
-	public ResponseEntity<String> vendaUsuario(@PathVariable(value = "idusuario") Long idusuario,
-			@PathVariable(value = "idvenda") Long idvenda) {
-		return new ResponseEntity<String>("idusuario = " + idusuario + " idvenda = " + idvenda, HttpStatus.OK); 
+	@PutMapping(value = "/") // Atualizar
+	public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario) {
+		// Fazendo alguma coisa antes de atualizar ou salvar.
+		Usuario usuarioSalvo = usuarioRepository.save(usuario);
+		return new ResponseEntity<Usuario>(usuarioSalvo, HttpStatus.OK); 
+		
 	}
 	
 	

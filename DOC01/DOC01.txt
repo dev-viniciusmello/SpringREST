@@ -10,3 +10,6 @@ public ResponseEntity<String> init()
 		:url/10/parametro2/2
 		
 Nosso serviço pode ser diferenciado através dos parametroes na url e na forma com que ela é feita.
+
+@RequestBody
+	:Pega um Json e converte em um objeto.

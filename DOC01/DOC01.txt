@@ -15,5 +15,6 @@ Nosso serviço pode ser diferenciado através dos parametroes na url e na forma 
 @RequestBody
 	:Pega um Json e converte em um objeto. Se o nome da variavel for igual, não precisa especificar.
 
-	
-	
+server.servlet.context-path=/cursospringrestapi
+	:Define um contexto para o meu projeto. 
+	:Isso significa que, ao perquisarmos na url, teremos que adicionar um contexto para o nosso projeto.

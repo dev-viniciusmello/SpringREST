@@ -1,5 +1,4 @@
 package com.viniciusmello.springrest;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @EntityScan(basePackages = {"com.viniciusmello.springrest.model"})
-@ComponentScan(basePackages = {"curso.*"}) 
+@ComponentScan(basePackages = {"com.viniciusmello.*"}) 
 @EnableJpaRepositories(basePackages = {"com.viniciusmello.springrest.repository"})
 @EnableTransactionManagement 
 @EnableWebMvc

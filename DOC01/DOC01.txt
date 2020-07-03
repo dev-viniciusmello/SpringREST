@@ -1,0 +1,6 @@
+@RestController 
+	:Indica que utilizaremos arquitetura Rest
+	
+@GetMapping(value = "/", produces = "application/json")
+public ResponseEntity<String> init()
+	: Tipo de serviço RESTfull. Dados são transmitidos através de Json.

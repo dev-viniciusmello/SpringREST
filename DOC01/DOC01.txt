@@ -8,8 +8,12 @@ public ResponseEntity<String> init()
 @PathVariable("id")
 	:Como segue a arquitetura rest, a url não precisa ser passa do jeito clássico. 
 		:url/10/parametro2/2
+	:A url 
 		
 Nosso serviço pode ser diferenciado através dos parametroes na url e na forma com que ela é feita.
 
 @RequestBody
-	:Pega um Json e converte em um objeto.
+	:Pega um Json e converte em um objeto. Se o nome da variavel for igual, não precisa especificar.
+
+	
+	

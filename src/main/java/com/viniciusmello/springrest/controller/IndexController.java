@@ -44,5 +44,13 @@ public class IndexController {
 		return new ResponseEntity<Usuario>(usuarioSalvo, HttpStatus.OK); 
 	}
 	
+	@PostMapping(value = "/vendausuario", produces = "application/json")
+	public ResponseEntity<Usuario> vendaUsuario(@RequestBody Usuario usuario) {
+		System.out.println("Entrou");
+		Usuario usuarioSalvo = usuarioRepository.save(usuario);
+		return new ResponseEntity<Usuario>(usuarioSalvo, HttpStatus.OK); 
+	}
+	
+	
 	
 }

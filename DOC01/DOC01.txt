@@ -18,3 +18,6 @@ Nosso serviço pode ser diferenciado através dos parametroes na url e na forma 
 server.servlet.context-path=/cursospringrestapi
 	:Define um contexto para o meu projeto. 
 	:Isso significa que, ao perquisarmos na url, teremos que adicionar um contexto para o nosso projeto.
+	
+@ManyToOne(optional = false)
+	:Significa que só o item referenciado é not null.

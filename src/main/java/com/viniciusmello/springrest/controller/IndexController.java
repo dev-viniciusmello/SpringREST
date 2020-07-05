@@ -1,7 +1,6 @@
 package com.viniciusmello.springrest.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,14 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.viniciusmello.springrest.model.Telefone;
 import com.viniciusmello.springrest.model.Usuario;
 import com.viniciusmello.springrest.repository.UsuarioRepository;
 
 @RestController 
-@RequestMapping(value = "/usuario")
 public class IndexController {
 	
 	@Autowired
@@ -28,9 +26,7 @@ public class IndexController {
 	@GetMapping(value = "/{id}", produces = "application/json")
 	public ResponseEntity<Usuario> init(@PathVariable("id") Long id) {
 		Usuario usuario = usuarioRepository.findById(id).get();
-		usuario.getTelefones().forEach(t -> System.out.println(t));
 		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
-		
 	}
 	
 	@GetMapping(value = "/", produces = "application/json")
@@ -40,10 +36,15 @@ public class IndexController {
 	
 	
 	@PostMapping(value = "/", produces = "application/json")
-	public ResponseEntity<Usuario> cadastrarVenda(@RequestBody Usuario usuario) {
-		System.out.println("Entrou");
+	public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
+		
+		for (Telefone t : usuario.getTelefones()) {
+			t.setUsuario(usuario);
+		}
+		
 		Usuario usuarioSalvo = usuarioRepository.save(usuario);
-		return new ResponseEntity<Usuario>(usuarioSalvo, HttpStatus.OK); 
+		
+		return new ResponseEntity<Usuario>(usuarioSalvo , HttpStatus.OK); 
 	}
 	
 	

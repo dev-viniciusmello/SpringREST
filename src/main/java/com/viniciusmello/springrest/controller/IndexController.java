@@ -46,6 +46,7 @@ public class IndexController {
 		return new ResponseEntity<Usuario>(usuarioSalvo, HttpStatus.OK); 
 	}
 	
+	
 	@PutMapping(value = "/") // Atualizar
 	public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario) {
 		Usuario usuarioSalvo = usuarioRepository.save(usuario);

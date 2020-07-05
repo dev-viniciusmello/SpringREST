@@ -20,6 +20,8 @@ public class Usuario implements Serializable {
 	private String nome;
 	
 	private String senha;
+	
+	
 
 	public Usuario() {
 		// TODO Auto-generated constructor stub

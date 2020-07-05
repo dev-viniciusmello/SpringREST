@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.viniciusmello.springrest.model.Telefone;
 import com.viniciusmello.springrest.model.Usuario;
 import com.viniciusmello.springrest.repository.UsuarioRepository;
@@ -38,18 +37,16 @@ public class IndexController {
 	@PostMapping(value = "/", produces = "application/json")
 	public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
 		
-		for (Telefone t : usuario.getTelefones()) {
-			t.setUsuario(usuario);
-		}
-		
+		associaTelefonesPessoa(usuario);
 		Usuario usuarioSalvo = usuarioRepository.save(usuario);
-		
 		return new ResponseEntity<Usuario>(usuarioSalvo , HttpStatus.OK); 
 	}
 	
 	
 	@PutMapping(value = "/") // Atualizar
 	public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario) {
+		
+		associaTelefonesPessoa(usuario);
 		Usuario usuarioSalvo = usuarioRepository.save(usuario);
 		return new ResponseEntity<Usuario>(usuarioSalvo, HttpStatus.OK); 
 		
@@ -59,6 +56,12 @@ public class IndexController {
 	public String delete(@PathVariable("id") Long id) {
 		usuarioRepository.deleteById(id);
 		return "ok";
+	}
+	
+	private void associaTelefonesPessoa(Usuario usuario) {
+		for (Telefone t : usuario.getTelefones()) {
+			t.setUsuario(usuario);
+		}
 	}
 	
 	

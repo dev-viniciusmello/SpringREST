@@ -43,12 +43,11 @@ public class Telefone implements Serializable {
 		this.numero = numero;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+		if (!usuario.getTelefones().contains(this)) {
+			usuario.getTelefones().add(this);			
+		}
 	}  	
 	
 }

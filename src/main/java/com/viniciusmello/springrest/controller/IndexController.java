@@ -1,6 +1,7 @@
 package com.viniciusmello.springrest.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,11 +26,10 @@ public class IndexController {
 	private UsuarioRepository usuarioRepository;
 
 	@GetMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<Usuario> init(@PathVariable("id") Long id, 
-			@PathVariable(value = "venda") Long venda) {
-		
-		return new ResponseEntity<Usuario>(usuarioRepository.findById(id).get(), 
-				HttpStatus.OK);	
+	public ResponseEntity<Usuario> init(@PathVariable("id") Long id) {
+		Usuario usuario = usuarioRepository.findById(id).get();
+		usuario.getTelefones().forEach(t -> System.out.println(t));
+		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
 		
 	}
 	

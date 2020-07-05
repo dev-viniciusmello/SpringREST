@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Telefone implements Serializable {
 	
@@ -19,6 +21,7 @@ public class Telefone implements Serializable {
 	
 	private String numero;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
@@ -43,6 +46,10 @@ public class Telefone implements Serializable {
 		this.numero = numero;
 	}
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 		if (!usuario.getTelefones().contains(this)) {

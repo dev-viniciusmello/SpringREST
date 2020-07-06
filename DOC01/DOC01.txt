@@ -78,3 +78,5 @@ JSON Web Token
 		:É a junção de todas as partes somando a uma chave de assinatura ou certificado. 
 		Tudo é codificado em Base 64.
 		
+.signWith(SignatureAlgorithm.HS512, SECRET).compact(); 
+	:Algoritmo de geração de senha e compactação.

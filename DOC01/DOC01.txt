@@ -21,3 +21,26 @@ server.servlet.context-path=/cursospringrestapi
 	
 @ManyToOne(optional = false)
 	:Significa que só o item referenciado é not null.
+	
+Como gerar o arquivo de implementação
+
+. Copiar o caminho do projeto
+.abrir o cmd
+.cd + caminho do arquivo
+.mvn + package -- Maven entra em ação para gerar o arquivo de implantação. Faz um Build.
+
+Dentro do target ele gerou um war - > web archive
+Deixar o nome do arquivo igual ao contexto pra fica simples de entender
+
+No aplication.properties  hospedagem temos que colocar o username e a senha da hospedagem e implantar lá no servidor.
+
+@CrossOrigin(origins = "*") 
+	:Faz o controle de quais requisições vindas de uma url podem acessar o nosso site.
+	
+@CrossOrigin(origins = "https://www.viniciusmello.com") 
+	:Somente esse site pode fazer as requisições ajax para o meu servidor.
+	
+	
+	
+	
+	

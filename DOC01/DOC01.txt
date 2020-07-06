@@ -76,4 +76,5 @@ JSON Web Token
 		
 	Signature 
 		:É a junção de todas as partes somando a uma chave de assinatura ou certificado. 
-		Tudo é codificado em Base 64
+		Tudo é codificado em Base 64.
+		

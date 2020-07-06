@@ -30,12 +30,14 @@ public class IndexController {
 		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
 	}
 	
+	@CrossOrigin(origins = "www.viniciusmello.com") 
 	@GetMapping(value = "/", produces = "application/json")
 	public ResponseEntity<List<Usuario>> usuarios() {
 		return new ResponseEntity<List<Usuario>>((List<Usuario>) usuarioRepository.findAll(), HttpStatus.OK);
 	}
 	
 	
+	@CrossOrigin(origins = {"www.viniciusmello.com, dominio03, dominio04, dominio05"})
 	@PostMapping(value = "/", produces = "application/json")
 	public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
 		
@@ -45,6 +47,7 @@ public class IndexController {
 	}
 	
 	
+	@CrossOrigin(origins = "localhost:8080")
 	@PutMapping(value = "/") // Atualizar
 	public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario) {
 		

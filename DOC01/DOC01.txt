@@ -34,13 +34,31 @@ Deixar o nome do arquivo igual ao contexto pra fica simples de entender
 
 No aplication.properties  hospedagem temos que colocar o username e a senha da hospedagem e implantar lá no servidor.
 
-@CrossOrigin(origins = "*") 
-	:Faz o controle de quais requisições vindas de uma url podem acessar o nosso site.
 	
-@CrossOrigin(origins = "https://www.viniciusmello.com") 
-	:Somente esse site pode fazer as requisições ajax para o meu servidor.
+Essas anotações podem também ser usadas no métodos
 	
-	
-	
-	
-	
+// Mapeamento nos controllers e nos métodos (EndPoint) - [ Ou configura através do método addCorsMapping ou pelo Controller ] 
+
+		@CrossOrigin(origins = "*") 
+			:Faz o controle de quais requisições vindas de uma url podem acessar o nosso site.
+			
+		@CrossOrigin(origins = "https://www.viniciusmello.com") 
+			:Somente esse site pode fazer as requisições ajax para o meu servidor.
+			
+		@CrossOrigin(origins = {"https://www.viniciusmello.com", "dominio02", "dominio03"}) 
+			:Somente esse site pode fazer as requisições ajax para o meu servidor.
+		
+		Essa anotação também pode ser aplicada ao controller.
+			:Endpoints são os métodos finais, pontos finais da nossa API são bloquedos colocando as anotações no método.
+		
+// Mapeamento global que reflete em todo o sistema.	[ addCorsMapping ou pelo Controller ] 
+		
+
+registry.addMapping("/**"); // Mapeia as urls internas que vão poder ser acessadas por todos
+	:Libera acesso as urls internas.
+.allowedMethods("*") // "POST", "DELETE", "PUT"
+	:Diz quais são os métodos permitidos.
+.allowedOrigins("*"); // viniciusmello.com 
+	: Diz quais são os clientes permitidos.
+		
+		

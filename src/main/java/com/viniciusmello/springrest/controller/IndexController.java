@@ -1,7 +1,6 @@
 package com.viniciusmello.springrest.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,7 @@ import com.viniciusmello.springrest.model.Telefone;
 import com.viniciusmello.springrest.model.Usuario;
 import com.viniciusmello.springrest.repository.UsuarioRepository;
 
-@CrossOrigin(origins = "*") // Todas as requisições vão passar a funcionar
+@CrossOrigin(origins = "*") 
 @RestController 
 public class IndexController {
 	
@@ -30,14 +29,12 @@ public class IndexController {
 		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
 	}
 	
-	@CrossOrigin(origins = "www.viniciusmello.com") 
 	@GetMapping(value = "/", produces = "application/json")
 	public ResponseEntity<List<Usuario>> usuarios() {
 		return new ResponseEntity<List<Usuario>>((List<Usuario>) usuarioRepository.findAll(), HttpStatus.OK);
 	}
 	
 	
-	@CrossOrigin(origins = {"www.viniciusmello.com, dominio03, dominio04, dominio05"})
 	@PostMapping(value = "/", produces = "application/json")
 	public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
 		
@@ -47,7 +44,6 @@ public class IndexController {
 	}
 	
 	
-	@CrossOrigin(origins = "localhost:8080")
 	@PutMapping(value = "/") // Atualizar
 	public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario) {
 		

@@ -62,3 +62,18 @@ registry.addMapping("/**"); // Mapeia as urls internas que vão poder ser acessa
 	: Diz quais são os clientes permitidos.
 		
 		
+JSON Web Token 
+	: Padrão de autenticação na arquitetura Rest -> Envia um Json para o servidor reconhecer que você tem a permissão e isso é enviado
+	em todas as requisições.
+	
+	Ele é formado por 3 Seções (Header, Payload, Signature)
+	
+	Header
+		:Define informações sobre o tipo de Token, nesse caso JWT
+		
+	PayLoads
+		:Contém as informações da entidade autorizada [USUÁRIO QUE FEZ O LOGIN]
+		
+	Signature 
+		:É a junção de todas as partes somando a uma chave de assinatura ou certificado. 
+		Tudo é codificado em Base 64

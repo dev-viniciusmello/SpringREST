@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 import com.viniciusmello.springrest.service.ImplementacaoUserDetailsService;
 
 // 			AUTORIZA OU BLOQUEIA ACESSOS A URL

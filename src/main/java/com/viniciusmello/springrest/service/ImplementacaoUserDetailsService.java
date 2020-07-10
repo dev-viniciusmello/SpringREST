@@ -5,9 +5,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import com.viniciusmello.springrest.model.Usuario;
 import com.viniciusmello.springrest.repository.UsuarioRepository;
 
+@Component
 public class ImplementacaoUserDetailsService implements UserDetailsService {
 
 	@Autowired

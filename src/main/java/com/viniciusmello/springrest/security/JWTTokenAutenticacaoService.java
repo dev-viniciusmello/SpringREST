@@ -1,10 +1,8 @@
 package com.viniciusmello.springrest.security;
 
 import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -88,12 +86,18 @@ public class JWTTokenAutenticacaoService {
 	}
 
 	private static Usuario getUsuarioByContextLogin(String user) {
+		
 		if (isStringValida(user)) {
-			ApplicationContextLoad aplApplicationContextLoad = new ApplicationContextLoad();
-			Usuario usuario = aplApplicationContextLoad.getApplicationContext().getBean(UsuarioRepository.class)
+			
+			Usuario usuario = ApplicationContextLoad
+					.getApplicationContext()
+					.getBean(UsuarioRepository.class)
 					.findUsuarioByLogin(user);
+			
 			return usuario;
+		
 		}
+		
 		return null;
 	}
 

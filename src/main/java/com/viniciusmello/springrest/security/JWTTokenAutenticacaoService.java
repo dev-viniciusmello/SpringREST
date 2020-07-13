@@ -9,17 +9,21 @@ import org.springframework.stereotype.Service;
 import com.viniciusmello.springrest.ApplicationContextLoad;
 import com.viniciusmello.springrest.model.Usuario;
 import com.viniciusmello.springrest.repository.UsuarioRepository;
-
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+//			CLASSE UTILIZADA TANTO PARA AUTENTICAR TOKENS QUANTO VALIDAR TOKENS VINDOS DE UMA REQUISIÇÃO
+
 @Service
 public class JWTTokenAutenticacaoService {
+	
+//			ATRIBUTO EXPIRATION_TIME EQUIVALE A 2 DIAS
+	
 	private static final long EXPIRATION_TIME = 172800000l;
 
 	private static final String SECRET = "SenhaExtremamenteSecreta";
 
-	private static final String token_PREFIX = "Bearer";
+	private static final String TOKEN_PREFIX = "Bearer";
 
 	private static final String HEADER_STRING = "Authorization";
 
@@ -53,7 +57,7 @@ public class JWTTokenAutenticacaoService {
 
 //				ADICIONA A PALAVRA BEARER QUE SIGINIFICA PORTADOR NO TOKEN
 		
-		String token = token_PREFIX + " " + JWT;
+		String token = TOKEN_PREFIX + " " + JWT;
 
 //				DEFINE O CABEÇALHO NA RESPOSTA COM O NOME AUTHORIZATION CONTENDO O TOKEN GERADO
 		
@@ -76,9 +80,20 @@ public class JWTTokenAutenticacaoService {
 //			USER É O NOME DO USUARIO
 		
 		String user = 
+
+//			CRIA UMA INSTÂNCIA DE DEFAULTJWTPARSER
+				
 				Jwts.parser()
+
+//			CONFIGURA A NOSSA CHAVE DE ASSINATURA
 					.setSigningKey(SECRET)
-					.parseClaimsJws(token.replace(token_PREFIX, ""))
+					
+//			DECODIFICA O NOSSO JWTT
+					
+					.parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+					
+//			OBTEM O NOME DO USUARIO QUE VEIO NA REQUISIÇÃO
+					
 					.getBody()
 					.getSubject();
 
@@ -101,15 +116,22 @@ public class JWTTokenAutenticacaoService {
 		return null;
 	}
 
+	
+//			RETORNA UM INSTÂNCIA DE AUTHENTICATION QUE CONTEM UM USUARIO VALIDADO 
+	
 	public static Authentication getAuthentication(HttpServletRequest request) {
 
 		String token = request.getHeader(HEADER_STRING);
 
 		if (isStringValida(token)) {
+
 			String user = getUserLoginByToken(token);
+			
 			Usuario usuario = getUsuarioByContextLogin(user);
-			return new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha(),
-					usuario.getAuthorities());
+			
+			return usuario != null ? new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha(),
+					usuario.getAuthorities()) : null;
+
 		}
 
 		return null;

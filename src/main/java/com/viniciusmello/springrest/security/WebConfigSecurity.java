@@ -53,13 +53,13 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 		 	
 		 	.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 		 
-// 			FILTRA AS REQUISIÇÕES DE LOGIN PARA AUTENTICAÇÃO
+// 			FILTRA QUE CONFIGURA AUTHENTICATIONMANAGER, URL, VALIDA ACESSO DE USUARIO E GERA TOKEN.
 		 
 		 	.and()
 		 	.addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
 		 			UsernamePasswordAuthenticationFilter.class)
 		 
-//			FILTRA AS DEMAIS REQUISIÇÕES PARA VERIFICAR O TOKEN JWT  NO HEADER HTTP
+//			FILTRO QUE VERIFICA SE TOKEN PASSADO NA REQUISIÇÃO É VALIDO
 		 
 		 	.addFilterBefore(new JWTApiAutenticacaoFilter(), UsernamePasswordAuthenticationFilter.class);
 		 

@@ -117,7 +117,7 @@ public class JWTTokenAutenticacaoService {
 	}
 
 	
-//			RETORNA UM INSTÂNCIA DE AUTHENTICATION QUE CONTEM UM USUARIO VALIDADO 
+//			VALIDA USUARIO DO TOKEN PASSADO NA REQUISIÇÃO
 	
 	public static Authentication getAuthentication(HttpServletRequest request) {
 

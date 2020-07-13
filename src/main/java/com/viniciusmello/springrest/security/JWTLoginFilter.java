@@ -18,6 +18,8 @@ import com.viniciusmello.springrest.model.Usuario;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
+//		CONFIGURA URL E AUTHENTICATIONMANAGER
+	
 	protected JWTLoginFilter(String url, AuthenticationManager authManager) {
 
 //		CONFIGURA O CONSTRUTOR DE ABSTRACT AUTHENTICATION PROCESSING FILTER
@@ -32,7 +34,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	}
 
-//		RETORNA O USUÁRIO AO PROCESSAR A AUTENTICAÇÃO
+//		VALIDA USUARIO PASSADO NO LOGIN 
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -50,7 +52,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 				.authenticate(new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha()));
 	}
 
-//		ESSE MÉTODO SERVE PARA, QUANDO AUTENTICADO, DAR UMA RESPOSTA AO CLIENTE COM O TOKEN GERADO NO METODO . ADDAUTHENTICATION
+//		GERA TOKEN E DA UMA REPOSTA
 	
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,

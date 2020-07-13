@@ -34,11 +34,20 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 		 
 //			DESABILITANDO AS CONFIGURAÇÕES PADRÃO E ATIVANDO A NOVA RESTRIÇÃO URL
 
-		 	.disable().authorizeRequests().antMatchers("/").permitAll().antMatchers("/index.html").permitAll()
+		 	.disable()
+		 	.authorizeRequests()
+		 	.antMatchers("/")
+		 	.permitAll()
+		 	.antMatchers("/index.html")
+		 	.permitAll()
 		 
 //			URL DE LOGOUT - REDIRECIONA APÓS O USER DESLOGAR DO SISTEMA.
 		 
-		 	.anyRequest().authenticated().and().logout().logoutSuccessUrl("/index")
+		 	.anyRequest()
+		 	.authenticated()
+		 	.and()
+		 	.logout()
+		 	.logoutSuccessUrl("/index")
 		 	
 //			MAPEIA URL DE LOGOUT E INVALIDA O USUARIO
 		 	
@@ -46,7 +55,8 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 		 
 // 			FILTRA AS REQUISIÇÕES DE LOGIN PARA AUTENTICAÇÃO
 		 
-		 	.and().addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
+		 	.and()
+		 	.addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
 		 			UsernamePasswordAuthenticationFilter.class)
 		 
 //			FILTRA AS DEMAIS REQUISIÇÕES PARA VERIFICAR O TOKEN JWT  NO HEADER HTTP
@@ -65,6 +75,5 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 			.passwordEncoder(new BCryptPasswordEncoder()); //Define a nossa criptografia
 		
 	}
-	
 	
 }

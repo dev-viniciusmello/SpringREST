@@ -44,7 +44,7 @@ public class IndexController {
 	}
 	
 	
-	@PutMapping(value = "/") // Atualizar
+	@PutMapping(value = "/") 
 	public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario) {
 		
 		associaTelefonesPessoa(usuario);

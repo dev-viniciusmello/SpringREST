@@ -10,14 +10,16 @@ import org.springframework.stereotype.Component;
 public class ApplicationContextLoad implements ApplicationContextAware {
 	
 	@Autowired
-	private static ApplicationContext applicationContext;
+	private ApplicationContext applicationContext;
 
-	public static ApplicationContext getApplicationContext() {
+	public ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
 
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		ApplicationContextLoad.applicationContext = applicationContext;
+	
+		applicationContext = this.applicationContext;
+		
 	}
 
 

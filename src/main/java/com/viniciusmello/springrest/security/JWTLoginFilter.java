@@ -21,11 +21,12 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	protected JWTLoginFilter(String url, AuthenticationManager authManager) {
 
 //		CONFIGURA O CONSTRUTOR DE ABSTRACT AUTHENTICATION PROCESSING FILTER
+		
 //		OBRIGA A AUTENTICAR A URL
 
 		super(new AntPathRequestMatcher(url));
 
-//		GERENCIADOR DE AUTENTICAÇÃO
+//		GERENCIADOR DE AUTENTICAÇÃO. É POR AQUI QUE ELE VAI VERIFICAR SE O NOSSO USUARIO ESTÁ CADASTRADO OU NÃO.
 
 		setAuthenticationManager(authManager);
 
@@ -37,16 +38,19 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
 
-//		ESTA PEGANDO O TOKEN PARA VALIDAR
+//		OBJECT MAPPER É UTILIZADO PARA LER E ESCREVER JSON
 
 		ObjectMapper objectMapper = new ObjectMapper();
 
+//		AQUI NÓS ESTAMOS PEGANDO E RETORNANDO UM USUARIO DO STREAM DA REQUISIÇÃO
+		
 		Usuario usuario = objectMapper.readValue(request.getInputStream(), Usuario.class);
 
 		return getAuthenticationManager()
 				.authenticate(new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha()));
 	}
 
+//		ESSE MÉTODO SERVE PARA, QUANDO AUTENTICADO, DAR UMA RESPOSTA AO CLIENTE COM O TOKEN GERADO NO METODO . ADDAUTHENTICATION
 	
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,

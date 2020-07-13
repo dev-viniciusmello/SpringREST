@@ -51,10 +51,12 @@ public class IndexController {
 		
 		associaTelefonesPessoa(usuario);
 		
-		Usuario aux = usuarioRepository.findUsuarioByLogin(usuario.getLogin());
+		Usuario aux = usuarioRepository.findById(usuario.getId()).get();
 		
-		if (!aux.getSenha().equals(usuario.getSenha())) {
+		if (!aux.getSenha().equals(usuario.getSenha()) && aux != null) {
+			
 			usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
+		
 		}
 		
 		Usuario usuarioSalvo = usuarioRepository.save(usuario);

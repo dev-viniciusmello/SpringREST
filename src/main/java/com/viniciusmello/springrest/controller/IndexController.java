@@ -50,7 +50,15 @@ public class IndexController {
 	public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario) {
 		
 		associaTelefonesPessoa(usuario);
+		
+		Usuario aux = usuarioRepository.findUsuarioByLogin(usuario.getLogin());
+		
+		if (!aux.getSenha().equals(usuario.getSenha())) {
+			usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
+		}
+		
 		Usuario usuarioSalvo = usuarioRepository.save(usuario);
+		
 		return new ResponseEntity<Usuario>(usuarioSalvo, HttpStatus.OK); 
 		
 	}

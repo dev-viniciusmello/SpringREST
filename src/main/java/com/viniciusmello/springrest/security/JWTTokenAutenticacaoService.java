@@ -63,9 +63,58 @@ public class JWTTokenAutenticacaoService {
 		
 		response.addHeader(HEADER_STRING, token);
 
+		
+//				INSERE TOKEN NO BANCO DE DADOS
+		
+		inserirTokenBanco(username, JWT);
+		
 //				ENVIA UMA RESPOSTA PADRÃO NO CABEÇALHO COM O JSON { AUTHORIZATION : BEARER TOKEN.TOKEN.TOKEN }
 		
 		response.getWriter().write("{\"Authorization\": \"" + token + "\"}");
+	}
+
+
+//			VALIDA USUARIO DO TOKEN PASSADO NA REQUISIÇÃO
+	
+	public static Authentication getAuthentication(HttpServletRequest request) {
+		
+		String token = request.getHeader(HEADER_STRING);
+		
+		if (isStringValida(token)) {
+			
+			String user = getUserLoginByToken(token);
+			
+			Usuario usuario = getUsuarioByContextLogin(user, token.replace(TOKEN_PREFIX, ""));
+			
+//			USUARIO AUTENTICADO
+			
+			return usuario != null ? new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha(),
+					usuario.getAuthorities()) : null; 
+			
+		}
+		
+//			USUARIO NÃO AUTENTICADO			
+		
+		return null;
+	}
+
+	
+	public static void inserirTokenBanco(String username, String jwt) {
+		
+		Usuario usuario = usuarioRepository().findUsuarioByLogin(username);
+		
+		usuario.setToken(jwt);
+		
+		usuarioRepository().save(usuario);
+		
+	}
+	
+	private static  UsuarioRepository usuarioRepository() {
+		
+		return ApplicationContextLoad
+				.getApplicationContext()
+				.getBean(UsuarioRepository.class);
+		
 	}
 
 	private static boolean isStringValida(String string) {
@@ -75,6 +124,9 @@ public class JWTTokenAutenticacaoService {
 		return true;
 	}
 
+	
+//			FAZ A VALIDAÇÃOD O TOKEN DO USUARIO NA REQUISIÇÃO
+	
 	private static String getUserLoginByToken(String token) {
 		
 //			USER É O NOME DO USUARIO
@@ -99,42 +151,24 @@ public class JWTTokenAutenticacaoService {
 
 		return user;
 	}
+	
+	
 
-	private static Usuario getUsuarioByContextLogin(String user) {
+	private static Usuario getUsuarioByContextLogin(String user, String token) {
 		
 		if (isStringValida(user)) {
 			
-			Usuario usuario = ApplicationContextLoad
-					.getApplicationContext()
-					.getBean(UsuarioRepository.class)
-					.findUsuarioByLogin(user);
+			Usuario usuario = usuarioRepository().findUsuarioByLogin(user);
 			
-			return usuario;
-		
+			if (usuario != null) 
+				if (token.equals(usuario.getToken())) 
+					return usuario;
+				
 		}
 		
 		return null;
 	}
 
 	
-//			VALIDA USUARIO DO TOKEN PASSADO NA REQUISIÇÃO
-	
-	public static Authentication getAuthentication(HttpServletRequest request) {
-
-		String token = request.getHeader(HEADER_STRING);
-
-		if (isStringValida(token)) {
-
-			String user = getUserLoginByToken(token);
-			
-			Usuario usuario = getUsuarioByContextLogin(user);
-			
-			return usuario != null ? new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha(),
-					usuario.getAuthorities()) : null;
-
-		}
-
-		return null;
-	}
 
 }

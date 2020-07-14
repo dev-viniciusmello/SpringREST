@@ -40,6 +40,7 @@ public class Usuario implements UserDetails { // Padrão para trabalhar com os u
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Role> roles = new ArrayList<>();
 	
+	private String token;
 
 	public Usuario() {
 		// TODO Auto-generated constructor stub
@@ -85,6 +86,14 @@ public class Usuario implements UserDetails { // Padrão para trabalhar com os u
 
 	public void setTelefones(List<Telefone> telefones) {
 		this.telefones = telefones;
+	}
+	
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	@Override

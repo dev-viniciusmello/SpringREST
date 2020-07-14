@@ -1,11 +1,9 @@
 package com.viniciusmello.springrest.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,8 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.function.EntityResponse;
-
 import com.viniciusmello.springrest.model.Telefone;
 import com.viniciusmello.springrest.model.Usuario;
 import com.viniciusmello.springrest.model.UsuarioDTO;
@@ -31,13 +27,10 @@ public class IndexController {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
+
 //			VAMOS SUPOR QUE O CARREGAMENTO DO USUARIO SEJA UM PROCESSO LENTO E QUEREMOS CONTROLAR ELE COM CACHE PARA AGILIZAR O PROCESSO
 	
 	@GetMapping(value = "/", produces = "application/json", headers = "X-API-VERSION=v1")
-
-//			FAZ CACHE NA APLICAÇÃO
-	
-	@Cacheable("cacheusuarios")
 	
 //			REMOVE O QUE NÃO ESTA SENDO USADO A MUITO TEMPO
 	
@@ -46,13 +39,13 @@ public class IndexController {
 //			ATUALIZA O CASH PRA GENTE DO QUE ESTA NO BANCO DE DADOS E COLOCA NO CASH
 	
 	@CachePut("cacheusuarios")
+	
 	public ResponseEntity<List<Usuario>> usuarios() throws InterruptedException {
 
 //			SIMULANDO UM PROCESSO PESADO QUE DURA 6 SEGUNDOS
 		
-		Thread.sleep(6000);
-		
-		return new ResponseEntity<List<Usuario>>((List<Usuario>) usuarioRepository.findAll(), HttpStatus.OK);
+		List<Usuario> list = (List<Usuario>) usuarioRepository.findAll();
+		return new ResponseEntity<List<Usuario>>(list, HttpStatus.OK);
 	
 	}
 	

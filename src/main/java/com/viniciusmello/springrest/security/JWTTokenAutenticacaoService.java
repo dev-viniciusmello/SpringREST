@@ -1,5 +1,6 @@
 package com.viniciusmello.springrest.security;
 
+import java.io.IOException;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.viniciusmello.springrest.ApplicationContextLoad;
 import com.viniciusmello.springrest.model.Usuario;
 import com.viniciusmello.springrest.repository.UsuarioRepository;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -84,17 +86,31 @@ public class JWTTokenAutenticacaoService {
 		
 		String token = request.getHeader(HEADER_STRING);
 		
-		if (isStringValida(token)) {
+		try {
 			
-			String user = getUserLoginByToken(token);
-			
-			Usuario usuario = getUsuarioByContextLogin(user, token.replace(TOKEN_PREFIX, ""));
-						
+			if (isStringValida(token)) {
+				
+				String user = getUserLoginByToken(token);
+				
+				Usuario usuario = getUsuarioByContextLogin(user, token.replace(TOKEN_PREFIX, ""));
+							
 //			USUARIO AUTENTICADO
-			
-			return usuario != null ? new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha(),
-					usuario.getAuthorities()) : null; 
-			
+				
+				return usuario != null ? new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha(),
+						usuario.getAuthorities()) : null; 
+				
+			}
+		} 
+		catch (ExpiredJwtException e) {
+
+			try {
+				response.getOutputStream().println("Seu token esta expirado faça o login ou informe um novo token para a autenticacao");
+			}
+			catch (IOException e1) {
+
+				e1.printStackTrace();
+			}
+		
 		}
 		
 //			LIBERANDO RESPOSTA PARA PORTAS DIFERENTES QUE USAM A API

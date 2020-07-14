@@ -2,6 +2,9 @@ package com.viniciusmello.springrest.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,9 +33,29 @@ public class IndexController {
 		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
 	}
 	
+//			VAMOS SUPOR QUE O CARREGAMENTO DO USUARIO SEJA UM PROCESSO LENTO E QUEREMOS CONTROLAR ELE COM CACHE PARA AGILIZAR O PROCESSO
+	
 	@GetMapping(value = "/", produces = "application/json", headers = "X-API-VERSION=v1")
-	public ResponseEntity<List<Usuario>> usuarios() {
+
+//			FAZ CACHE NA APLICAÇÃO
+	
+	@Cacheable("cacheusuarios")
+	
+//			REMOVE O QUE NÃO ESTA SENDO USADO A MUITO TEMPO
+	
+	@CacheEvict(value = "cacheusuarios", allEntries = true)
+	
+//			ATUALIZA O CASH PRA GENTE DO QUE ESTA NO BANCO DE DADOS E COLOCA NO CASH
+	
+	@CachePut("cacheusuarios")
+	public ResponseEntity<List<Usuario>> usuarios() throws InterruptedException {
+
+//			SIMULANDO UM PROCESSO PESADO QUE DURA 6 SEGUNDOS
+		
+		Thread.sleep(6000);
+		
 		return new ResponseEntity<List<Usuario>>((List<Usuario>) usuarioRepository.findAll(), HttpStatus.OK);
+	
 	}
 	
 	

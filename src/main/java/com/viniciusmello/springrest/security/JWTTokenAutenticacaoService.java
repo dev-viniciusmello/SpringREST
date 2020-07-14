@@ -68,6 +68,10 @@ public class JWTTokenAutenticacaoService {
 		
 		inserirTokenBanco(username, JWT);
 		
+//				LIBERANDO RESPOSTA PARA PORTAS DIFERENTES QUE USAM A API OU CLIENTES WEB
+			
+		liberacaoCors(response);
+		
 //				ENVIA UMA RESPOSTA PADRÃO NO CABEÇALHO COM O JSON { AUTHORIZATION : BEARER TOKEN.TOKEN.TOKEN }
 		
 		response.getWriter().write("{\"Authorization\": \"" + token + "\"}");
@@ -76,7 +80,7 @@ public class JWTTokenAutenticacaoService {
 
 //			VALIDA USUARIO DO TOKEN PASSADO NA REQUISIÇÃO
 	
-	public static Authentication getAuthentication(HttpServletRequest request) {
+	public static Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response) {
 		
 		String token = request.getHeader(HEADER_STRING);
 		
@@ -85,7 +89,7 @@ public class JWTTokenAutenticacaoService {
 			String user = getUserLoginByToken(token);
 			
 			Usuario usuario = getUsuarioByContextLogin(user, token.replace(TOKEN_PREFIX, ""));
-			
+						
 //			USUARIO AUTENTICADO
 			
 			return usuario != null ? new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha(),
@@ -93,12 +97,30 @@ public class JWTTokenAutenticacaoService {
 			
 		}
 		
+//			LIBERANDO RESPOSTA PARA PORTAS DIFERENTES QUE USAM A API
+		
+		liberacaoCors(response);
+
+		
 //			USUARIO NÃO AUTENTICADO			
 		
 		return null;
 	}
 
 	
+	private static void liberacaoCors(HttpServletResponse response) {
+		
+		if (response.getHeader("Access-Control-Allow-Origin") == null) response.addHeader("Access-Control-Allow-Origin", "*");
+		
+		if (response.getHeader("Access-Control-Allow-Headers") == null) response.addHeader("Access-Control-Allow-Headers", "*");
+		
+		if (response.getHeader("Access-Control-Request-Headers") == null) response.addHeader("Access-Control-Request-Headers", "*");
+		
+		if (response.getHeader("Access-Control-Allow-Methods") == null) response.addHeader("Access-Control-Allow-Methods", "*");
+		
+	}
+
+
 	public static void inserirTokenBanco(String username, String jwt) {
 		
 		Usuario usuario = usuarioRepository().findUsuarioByLogin(username);

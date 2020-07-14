@@ -1,6 +1,7 @@
 package com.viniciusmello.springrest.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -16,8 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.function.EntityResponse;
+
 import com.viniciusmello.springrest.model.Telefone;
 import com.viniciusmello.springrest.model.Usuario;
+import com.viniciusmello.springrest.model.UsuarioDTO;
 import com.viniciusmello.springrest.repository.UsuarioRepository;
 
 @CrossOrigin(origins = "*") 
@@ -27,12 +31,6 @@ public class IndexController {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
-	@GetMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<Usuario> init(@PathVariable("id") Long id) {
-		Usuario usuario = usuarioRepository.findById(id).get();
-		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
-	}
-	
 //			VAMOS SUPOR QUE O CARREGAMENTO DO USUARIO SEJA UM PROCESSO LENTO E QUEREMOS CONTROLAR ELE COM CACHE PARA AGILIZAR O PROCESSO
 	
 	@GetMapping(value = "/", produces = "application/json", headers = "X-API-VERSION=v1")
@@ -98,5 +96,11 @@ public class IndexController {
 		for (Telefone t : usuario.getTelefones()) {
 			t.setUsuario(usuario);
 		}
+	}
+	
+	@GetMapping(value = "/{id}", produces = "application/json")
+	public ResponseEntity<UsuarioDTO> getMapping(@PathVariable("id") Long id) {
+		UsuarioDTO usuario = new UsuarioDTO(usuarioRepository.findById(id).get());
+		return new ResponseEntity<UsuarioDTO>(usuario, HttpStatus.OK);
 	}
 }

@@ -92,7 +92,7 @@ public class JWTTokenAutenticacaoService {
 				
 				String user = getUserLoginByToken(token);
 				
-				Usuario usuario = getUsuarioByContextLogin(user, token.replace(TOKEN_PREFIX, ""));
+				Usuario usuario = getUsuarioByContextLogin(user, token.replace(TOKEN_PREFIX, "").trim());
 							
 //			USUARIO AUTENTICADO
 				

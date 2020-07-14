@@ -14,12 +14,8 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-//			CLASSE UTILIZADA TANTO PARA AUTENTICAR TOKENS QUANTO VALIDAR TOKENS VINDOS DE UMA REQUISIÇÃO
-
 @Service
 public class JWTTokenAutenticacaoService {
-	
-//			ATRIBUTO EXPIRATION_TIME EQUIVALE A 2 DIAS
 	
 	private static final long EXPIRATION_TIME = 172800000l;
 
@@ -33,54 +29,24 @@ public class JWTTokenAutenticacaoService {
 																									// AUTENTICAÇÃO
 		String JWT = 
 				
-//				DEFININDO O NOME DO USUARIO NO TOKEN
-				
 				Jwts
-				
-//				RETORNA UMA INSTÂNCIA DO OBJETO DEFAULTJWTBUILDER PRA EU PODER CONFIGURAR DEPOIS
-					
 					.builder()
-					
-//				DEFINE O NOME DE USUARIO DO MEU TOKEN 
-					
 					.setSubject(username)
-				
-//				DEFININFO PRAZO DE VALIDADE NO TOKEN
-				
 					.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-				
-//				DEFINE ALGORITMO DE CODIFICAÇÃO JUNTO COM A SENHA SECRETA
-				
 					.signWith(SignatureAlgorithm.HS512, SECRET)
-				
-//				ESSE MÉTODO CRIA A STRING EM JWT DE ACORDO COM TODAS AS CONFIGURAÇÕES QUE FORAM FEITAS
-				
 					.compact();
 
-//				ADICIONA A PALAVRA BEARER QUE SIGINIFICA PORTADOR NO TOKEN
-		
 		String token = TOKEN_PREFIX + " " + JWT;
 
-//				DEFINE O CABEÇALHO NA RESPOSTA COM O NOME AUTHORIZATION CONTENDO O TOKEN GERADO
-		
 		response.addHeader(HEADER_STRING, token);
 
-		
-//				INSERE TOKEN NO BANCO DE DADOS
-		
 		inserirTokenBanco(username, JWT);
 		
-//				LIBERANDO RESPOSTA PARA PORTAS DIFERENTES QUE USAM A API OU CLIENTES WEB
-			
 		liberacaoCors(response);
-		
-//				ENVIA UMA RESPOSTA PADRÃO NO CABEÇALHO COM O JSON { AUTHORIZATION : BEARER TOKEN.TOKEN.TOKEN }
 		
 		response.getWriter().write("{\"Authorization\": \"" + token + "\"}");
 	}
 
-
-//			VALIDA USUARIO DO TOKEN PASSADO NA REQUISIÇÃO
 	
 	public static Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response) {
 		
@@ -89,20 +55,15 @@ public class JWTTokenAutenticacaoService {
 		try {
 			
 			if (isStringValida(token)) {
-				
 				String user = getUserLoginByToken(token);
 				
 				Usuario usuario = getUsuarioByContextLogin(user, token.replace(TOKEN_PREFIX, "").trim());
 							
-//			USUARIO AUTENTICADO
-				
 				return usuario != null ? new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha(),
 						usuario.getAuthorities()) : null; 
-				
 			}
 		} 
 		catch (ExpiredJwtException e) {
-
 			try {
 				response.getOutputStream().println("Seu token esta expirado faça o login ou informe um novo token para a autenticacao");
 			}
@@ -110,16 +71,9 @@ public class JWTTokenAutenticacaoService {
 
 				e1.printStackTrace();
 			}
-		
 		}
 		
-//			LIBERANDO RESPOSTA PARA PORTAS DIFERENTES QUE USAM A API
-		
 		liberacaoCors(response);
-
-		
-//			USUARIO NÃO AUTENTICADO			
-		
 		return null;
 	}
 
@@ -163,27 +117,14 @@ public class JWTTokenAutenticacaoService {
 	}
 
 	
-//			FAZ A VALIDAÇÃOD O TOKEN DO USUARIO NA REQUISIÇÃO
-	
 	private static String getUserLoginByToken(String token) {
 		
-//			USER É O NOME DO USUARIO
-		
 		String user = 
-
-//			CRIA UMA INSTÂNCIA DE DEFAULTJWTPARSER
 				
-				Jwts.parser()
-
-//			CONFIGURA A NOSSA CHAVE DE ASSINATURA
+				Jwts
+					.parser()
 					.setSigningKey(SECRET)
-					
-//			DECODIFICA O NOSSO JWTT
-					
 					.parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
-					
-//			OBTEM O NOME DO USUARIO QUE VEIO NA REQUISIÇÃO
-					
 					.getBody()
 					.getSubject();
 
@@ -201,7 +142,7 @@ public class JWTTokenAutenticacaoService {
 			if (usuario != null) 
 				if (token.equals(usuario.getToken())) 
 					return usuario;
-				
+
 		}
 		
 		return null;

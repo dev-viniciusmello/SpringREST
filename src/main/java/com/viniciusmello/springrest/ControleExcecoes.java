@@ -20,11 +20,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ControleExcecoes extends ResponseEntityExceptionHandler {
 	
 	public ControleExcecoes() {
-		// TODO Auto-generated constructor stub
+
 	}
 	
-//			INTERCEPTA A MAIORIA DOS ERROS COMUNS	
-
 	@ExceptionHandler({Exception.class, RuntimeException.class, Throwable.class})
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
@@ -59,8 +57,6 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
 		else msg = ex.getMessage();
 			
 	}
-	
-//			TRATAMENTO DA MAIORIA DOS ERROS A NIVEL DE BANCO DE DADOS
 	
 	@ExceptionHandler({DataIntegrityViolationException.class, ConstraintViolationException.class, SQLException.class})
 	protected ResponseEntity<Object> handleExceptionDataIntegry(Exception ex) {

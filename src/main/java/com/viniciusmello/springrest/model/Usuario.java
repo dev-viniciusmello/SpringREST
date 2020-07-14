@@ -3,7 +3,6 @@ package com.viniciusmello.springrest.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,14 +12,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Usuario implements UserDetails { // Padrão para trabalhar com os usuarios
+public class Usuario implements UserDetails { 
 	
 	private static final long serialVersionUID = 1L;
 
@@ -43,7 +40,7 @@ public class Usuario implements UserDetails { // Padrão para trabalhar com os u
 	private String token;
 
 	public Usuario() {
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	public Long getId() {
@@ -142,49 +139,42 @@ public class Usuario implements UserDetails { // Padrão para trabalhar com os u
 	@JsonIgnore
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
 		return roles;
 	}
 
 	@JsonIgnore
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		return this.senha;
 	}
 
 	@JsonIgnore
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
 		return this.login;
 	}
 
 	@JsonIgnore
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@JsonIgnore
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@JsonIgnore
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@JsonIgnore
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

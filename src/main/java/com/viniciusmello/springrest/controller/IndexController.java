@@ -26,27 +26,14 @@ public class IndexController {
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-
-
-//			VAMOS SUPOR QUE O CARREGAMENTO DO USUARIO SEJA UM PROCESSO LENTO E QUEREMOS CONTROLAR ELE COM CACHE PARA AGILIZAR O PROCESSO
 	
 	@GetMapping(value = "/", produces = "application/json", headers = "X-API-VERSION=v1")
-	
-//			REMOVE O QUE NÃO ESTA SENDO USADO A MUITO TEMPO
-	
 	@CacheEvict(value = "cacheusuarios", allEntries = true)
-	
-//			ATUALIZA O CASH PRA GENTE DO QUE ESTA NO BANCO DE DADOS E COLOCA NO CASH
-	
-	@CachePut("cacheusuarios")
-	
+	@CachePut("cacheusuarios")	
 	public ResponseEntity<List<Usuario>> usuarios() throws InterruptedException {
 
-//			SIMULANDO UM PROCESSO PESADO QUE DURA 6 SEGUNDOS
-		
 		List<Usuario> list = (List<Usuario>) usuarioRepository.findAll();
 		return new ResponseEntity<List<Usuario>>(list, HttpStatus.OK);
-	
 	}
 	
 	
